@@ -71,8 +71,8 @@ with st.sidebar:
     st.divider()
     
     st.subheader("Contact")
-    st.markdown("**Phone**  \n(253) XXX-XXXX")          # ← YOUR REAL PHONE NUMBER
-    st.markdown("**Email**  \nlawrence@example.com")    # ← YOUR REAL EMAIL
+    st.markdown("**Phone**  \n(509) 552-7109")          # ← YOUR REAL PHONE NUMBER
+    st.markdown("**Email**  \nHartmanlawrence291@gmail.com")    # ← YOUR REAL EMAIL
     
     st.divider()
     
