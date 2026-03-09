@@ -1,178 +1,134 @@
 import streamlit as st
 import datetime
-import random
 
 st.set_page_config(
-    page_title="CIA SAFEHOUSE TERMINAL – LAWRENCE ACCESS",
-    page_icon="🖥️",
+    page_title="Lawrence | Federal Way",
+    page_icon="🇺🇸",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-# Enhanced CSS: Smooth, immersive Black Ops Cold War CRT (green phosphor + polish)
+# Modern dark theme with patriotic accents
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     body, .stApp {
-        background: #000 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
+        font-family: 'Inter', sans-serif !important;
+        background: #0f1117 !important;
+        color: #e2e8f0 !important;
     }
-
-    .crt-container {
-        max-width: 1400px;
-        margin: 30px auto;
-        background: #0a0a0a;
-        border-radius: 28px;
-        padding: 35px;
-        box-shadow: 
-            inset 0 0 80px rgba(0,255,80,0.15),
-            0 0 120px rgba(0,255,80,0.25),
-            inset 0 0 200px rgba(0,0,0,0.9);
-        border: 12px solid #111;
-        position: relative;
+    .stButton > button {
+        background: #dc2626 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 14px 32px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
     }
-
-    .crt-screen {
-        background: #000;
-        border-radius: 18px;
-        padding: 45px 50px;
-        font-family: 'VT323', monospace !important;
-        font-size: 1.9rem !important;
-        color: #00ff41 !important;
-        line-height: 1.55;
-        text-shadow: 0 0 12px #00ff41, 0 0 24px #00cc33, 0 0 36px #009922;
-        position: relative;
-        overflow: hidden;
-        min-height: 70vh;
+    .stButton > button:hover {
+        background: #ef4444 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 25px rgba(220,38,38,0.4) !important;
     }
-
-    /* Smooth scanlines */
-    .scanlines::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(0,255,65,0.08) 3px,
-            rgba(0,255,65,0.08) 6px
-        );
-        pointer-events: none;
-        z-index: 10;
+    h1, h2, h3 {
+        color: #f1f5f9 !important;
+        font-weight: 700 !important;
     }
-
-    /* Gentle, smooth flicker + pulse glow */
-    @keyframes soft-flicker {
-        0%, 92%, 94%, 96%, 100% { opacity: 1; }
-        93%, 95% { opacity: 0.96; }
-    }
-    .crt-screen { animation: soft-flicker 12s infinite; }
-
-    @keyframes glow-pulse {
-        0%, 100% { text-shadow: 0 0 12px #00ff41, 0 0 24px #00cc33; }
-        50% { text-shadow: 0 0 18px #00ff41, 0 0 36px #00cc33, 0 0 48px #009922; }
-    }
-    .glow { animation: glow-pulse 6s infinite ease-in-out; }
-
-    /* Blinking cursor – smooth & sharp */
-    @keyframes blink-smooth {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0; }
-    }
-    .cursor {
-        display: inline-block;
-        width: 18px;
-        height: 1.5em;
-        background: #00ff41;
-        margin-left: 4px;
-        animation: blink-smooth 1.1s step-end infinite;
-        vertical-align: middle;
-    }
-
-    /* Vignette for curved CRT edges */
-    .vignette {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(0,0,0,0.75) 100%);
-        pointer-events: none;
-        z-index: 5;
-    }
-
-    hr { border: none; border-top: 2px solid #003300; margin: 25px 0; }
-
     a {
-        color: #00ccff !important;
-        text-decoration: none;
-        transition: all 0.3s;
+        color: #60a5fa !important;
+        text-decoration: none !important;
     }
     a:hover {
-        text-shadow: 0 0 25px #00ccff, 0 0 40px #0099cc;
-        color: #00ffff !important;
+        text-decoration: underline !important;
+        color: #93c5fd !important;
     }
-
-    .alert { color: #ff0044 !important; text-shadow: 0 0 15px #ff0044; }
+    .card {
+        background: #1e293b !important;
+        border-radius: 16px !important;
+        padding: 28px !important;
+        margin-bottom: 24px !important;
+        border: 1px solid #334155 !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+    .card:hover {
+        transform: translateY(-6px) !important;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+    }
+    hr {
+        border-color: #334155 !important;
+        margin: 40px 0 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# CRT frame
-st.markdown('<div class="crt-container"><div class="crt-screen scanlines"><div class="vignette"></div>', unsafe_allow_html=True)
-
-# Boot sequence – smooth & cinematic
-st.markdown('<div class="glow">C.I.A. SAFEHOUSE TERMINAL – ACCESS VERIFIED</div>', unsafe_allow_html=True)
-st.markdown(f'<div>USER: LAWRENCE | FEDERAL WAY WA | {datetime.datetime.now().strftime("%Y-%m-%d %H:%M PDT")} <span class="cursor"></span></div>', unsafe_allow_html=True)
-st.markdown('<div class="alert">**CLASSIFIED – PATRIOT CLEARANCE**</div>', unsafe_allow_html=True)
-st.markdown("---")
-
-# Daily directive
-quotes = [
-    "MR. GORBACHEV, TEAR DOWN THIS WALL! – REAGAN 1987",
-    "WE WIN, THEY LOSE. – RONALD REAGAN",
-    "TRUST BUT VERIFY. – RONALD REAGAN",
-    "FREEDOM IS A FRAGILE THING... – REAGAN",
-]
-st.markdown(f'<div class="glow">> DAILY BRIEFING: "{random.choice(quotes)}" <span class="cursor"></span></div>', unsafe_allow_html=True)
-st.markdown("---")
-
-# Sidebar – clean & thematic
+# Sidebar – quick nav & contact
 with st.sidebar:
-    st.markdown('<div class="glow">> COMMAND CONSOLE</div>', unsafe_allow_html=True)
-    st.markdown("---")
-    st.markdown("📞 PHONE: (253) XXX-XXXX")  # ← YOUR REAL PHONE NUMBER
-    st.markdown("✉️ EMAIL: lawrence@example.com")  # ← YOUR REAL EMAIL
-    st.markdown("---")
-    st.markdown('<div class="glow">STATUS: ACTIVE | SEC LEVEL: PATRIOT</div>', unsafe_allow_html=True)
+    st.title("Lawrence")
+    st.caption("Federal Way, Washington • Builder & Truth-Seeker")
+    
+    st.divider()
+    
+    st.subheader("Contact")
+    st.markdown("**Phone**  \n(253) XXX-XXXX")          # ← YOUR REAL PHONE NUMBER
+    st.markdown("**Email**  \nlawrence@example.com")    # ← YOUR REAL EMAIL
+    
+    st.divider()
+    
+    st.markdown("[GitHub](https://github.com/YOURUSERNAME)")
+    st.markdown("[X / Twitter](https://x.com/YOURHANDLE)")
 
-# Main content – command style, smooth flow
-st.markdown('<div class="glow">> DIR /HOME/LAWRENCE</div>', unsafe_allow_html=True)
-st.write("""
-OPERATOR......... LAWRENCE
-LOCATION......... FEDERAL WAY COMMAND POST
-PRIMARY MISSION.. CONSERVATIVE TRUTH DISSEMINATION
-KEY ASSET........ THEREALNEWS TERMINAL
-""")
+# Hero section
+col1, col2 = st.columns([3, 1])
 
-st.markdown("---")
+with col1:
+    st.markdown("<h1 style='margin-bottom:0.2rem;'>Hey, I'm Lawrence</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color:#94a3b8; margin-top:0;'>Federal Way, WA • Conservative • Python Developer</h3>", unsafe_allow_html=True)
+    
+    st.write("""
+    I build tools that cut through the noise. Focused on real information from trusted sources, 
+    staying informed on politics, economics, national security, and freedom.
+    """)
+    
+    st.markdown("### My Main Project")
+    st.button("→ Visit THEREALNEWS with Lawrence", 
+              on_click=lambda: st.markdown("<meta http-equiv='refresh' content='0; url=https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/' />", unsafe_allow_html=True))
 
-st.markdown('<div class="glow">> EXECUTE THEREALNEWS</div>', unsafe_allow_html=True)
-st.markdown("""
-<div class="glow">
-> <a href="https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/" target="_blank">
-LAUNCH THEREALNEWS – WAR / POLITICS / ECONOMICS FEED
-</a> <span class="cursor"></span>
-</div>
-""", unsafe_allow_html=True)
+with col2:
+    # Placeholder for your photo (upload profile.jpg to repo root)
+    # st.image("profile.jpg", use_column_width=True, caption="Lawrence")
+    st.caption("Photo coming soon – or upload yours")
 
-st.markdown("---")
+# Sections in cards
+st.divider()
 
-st.markdown('<div class="glow">> CAT CONTACT.INFO</div>', unsafe_allow_html=True)
-st.markdown(f'- PHONE: (253) XXX-XXXX')  # ← YOUR REAL PHONE
-st.markdown(f'- EMAIL: lawrence@example.com')  # ← YOUR REAL EMAIL
-st.markdown('<div class="glow">> TRANSMIT & ACKNOWLEDGE <span class="cursor"></span></div>', unsafe_allow_html=True)
+col_left, col_right = st.columns(2)
 
-st.markdown("---")
-st.caption("TERMINAL v1.0 – STREAMLIT / PYTHON – CLASSIFIED 2026 – LIBERTY & TRUTH")
+with col_left:
+    with st.container():
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.subheader("About")
+        st.write("""
+        Living in Federal Way, Washington.  
+        Passionate about conservative values, staying informed, and building useful apps with Python & Streamlit.  
+        Always open to talk politics, current events, tech, or life in the PNW.
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div></div>', unsafe_allow_html=True)
+with col_right:
+    with st.container():
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.subheader("THEREALNEWS")
+        st.write("""
+        Real-time conservative news feed from trusted Republican-leaning sources.  
+        Switch between War, Politics, Economics.  
+        War mode includes next-event probabilities with % chances.
+        """)
+        st.button("Launch THEREALNEWS →", 
+                  on_click=lambda: st.markdown("<meta http-equiv='refresh' content='0; url=https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/' />", unsafe_allow_html=True))
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Footer
+st.divider()
+st.caption(f"© {datetime.date.today().year} Lawrence • Built with Python + Streamlit • Hosted on GitHub")
