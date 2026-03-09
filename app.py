@@ -2,82 +2,137 @@ import streamlit as st
 import datetime
 import random
 
-# ── Page Config ──
+# ── Page config for retro terminal ──
 st.set_page_config(
-    page_title="Lawrence | Home",
-    page_icon="🇺🇸",
+    page_title="LAWRENCE TERMINAL v1.0 – FEDERAL WAY COMMAND",
+    page_icon="🖥️",
     layout="wide",
 )
 
-# Custom CSS for alive feel: gradients, animations, patriotic colors
+# Custom CSS: Cold War CRT terminal aesthetic
 st.markdown("""
     <style>
-    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-    .fade-in { animation: fadeIn 1.5s ease-in; }
-    .hero { 
-        background: linear-gradient(135deg, #b22222, #000080, #ffffff); 
-        color: white; padding: 60px 20px; text-align: center; border-radius: 15px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 30px;
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+    body, .stApp {
+        background-color: #000000 !important;
+        color: #00ff41 !important;
+        font-family: 'VT323', monospace !important;
+        font-size: 1.4rem !important;
     }
-    .big-title { font-size: 70px; font-weight: bold; margin: 0; text-shadow: 3px 3px 6px #000; }
-    .subtitle { font-size: 32px; margin: 10px 0; }
-    .pulse-button { 
-        background: #d32f2f; color: white; font-size: 24px; padding: 15px 40px; 
-        border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s;
-        box-shadow: 0 5px 15px rgba(211,47,47,0.5);
+    .stMarkdown, h1, h2, h3, p, div, span, a {
+        color: #00ff41 !important;
+        text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41;
     }
-    .pulse-button:hover { transform: scale(1.08); box-shadow: 0 10px 25px rgba(211,47,47,0.7); }
-    .quote { font-style: italic; color: #ffd700; font-size: 22px; margin: 20px 0; }
-    .alive-clock { font-size: 18px; color: #00ffcc; }
+    /* Scanlines */
+    .stApp::before {
+        content: " ";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 2px,
+            rgba(0,0,0,0.18) 2px,
+            rgba(0,0,0,0.18) 4px
+        );
+        pointer-events: none;
+        z-index: 9999;
+    }
+    /* Gentle flicker (whole screen) */
+    @keyframes flicker {
+        0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+        20%, 24%, 55% { opacity: 0.92; }
+    }
+    .crt-flicker {
+        animation: flicker 10s infinite;
+    }
+    /* Glow + phosphor bloom */
+    .glow {
+        text-shadow: 
+            0 0 4px #00ff41,
+            0 0 8px #00ff41,
+            0 0 12px #00ff41,
+            0 0 20px #00ff41;
+    }
+    /* Blinking cursor simulation */
+    @keyframes blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+    }
+    .cursor { 
+        display: inline-block; 
+        width: 12px; 
+        height: 1.2em; 
+        background: #00ff41; 
+        animation: blink 1s step-end infinite; 
+        vertical-align: middle;
+    }
+    /* Vignette for old CRT edges */
+    .vignette {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+        z-index: 9998;
+    }
+    hr { border-color: #004d1a; }
+    a { color: #00cc33 !important; text-decoration: underline; }
     </style>
+    <div class="vignette"></div>
     """, unsafe_allow_html=True)
 
-# ── Sidebar (keep or simplify) ──
-with st.sidebar:
-    st.title("Lawrence 🇺🇸")
-    st.markdown("Federal Way, WA • Conservative • Builder")
-    st.markdown("### Quick Jump")
-    st.markdown("- [THEREALNEWS →](https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/)")
+# Wrap main content in crt-flicker class
+st.markdown('<div class="crt-flicker">', unsafe_allow_html=True)
 
-# ── Hero / Alive Section ──
-st.markdown('<div class="hero fade-in">', unsafe_allow_html=True)
-st.markdown('<p class="big-title">Welcome, Patriot</p>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Lawrence\'s Corner – Truth, Tech & Freedom</p>', unsafe_allow_html=True)
+# ── Header / Boot screen style ──
+st.markdown('<h1 class="glow">LAWRENCE PERSONAL TERMINAL – ACCESS GRANTED</h1>', unsafe_allow_html=True)
+st.markdown('<p>USER: LAWRENCE | LOCATION: FEDERAL WAY, WA | DATE: ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M PDT") + ' <span class="cursor"></span></p>', unsafe_allow_html=True)
+st.markdown("---")
 
-# Dynamic daily quote (rotate conservative icons)
+# Rotating Cold War / conservative quote
 quotes = [
-    "Freedom is never more than one generation away from extinction. — Ronald Reagan",
-    "The Constitution is not an instrument for the government to restrain the people, it is an instrument for the people to restrain the government. — Patrick Henry",
-    "In the end, we will remember not the words of our enemies, but the silence of our friends. — Martin Luther King Jr.",
-    "The tree of liberty must be refreshed from time to time with the blood of patriots and tyrants. — Thomas Jefferson",
+    "MR. GORBACHEV, TEAR DOWN THIS WALL! – RONALD REAGAN, 1987",
+    "WE WIN, THEY LOSE. – RONALD REAGAN",
+    "FREEDOM IS NEVER MORE THAN ONE GENERATION AWAY FROM EXTINCTION. – RONALD REAGAN",
+    "TRUST BUT VERIFY. – RONALD REAGAN",
 ]
-daily_quote = random.choice(quotes)
-st.markdown(f'<p class="quote">"{daily_quote}"</p>', unsafe_allow_html=True)
+st.markdown(f'<p class="glow">> DAILY COMMAND DIRECTIVE: "{random.choice(quotes)}" <span class="cursor"></span></p>', unsafe_allow_html=True)
+st.markdown("---")
 
-# Live-ish clock
-now = datetime.datetime.now().strftime("%B %d, %Y • %I:%M %p PDT")
-st.markdown(f'<p class="alive-clock">Right now in Federal Way: {now}</p>', unsafe_allow_html=True)
+# ── Sidebar: Classified style ──
+with st.sidebar:
+    st.markdown('<h2 class="glow">COMMAND MENU</h2>', unsafe_allow_html=True)
+    st.markdown('<p>📞 PHONE: (253) XXX-XXXX</p>')  # ← YOUR REAL NUMBER
+    st.markdown('<p>✉️ EMAIL: lawrence@example.com</p>')  # ← YOUR REAL EMAIL
+    st.markdown("---")
+    st.markdown('<p class="glow">> STATUS: ONLINE | SEC LEVEL: PATRIOT</p>', unsafe_allow_html=True)
 
-# Big pulsing link to THEREALNEWS
+# ── Main sections in terminal style ──
+st.subheader(">> SYSTEM OVERVIEW")
+st.write("""
+OPERATOR: Lawrence  
+LOCATION: Federal Way Command Post, Washington  
+MISSION: Disseminate truth via conservative intelligence feeds  
+PRIMARY ASSET: THEREALNEWS with Lawrence
+""")
+
+st.subheader(">> PRIMARY LINK – LAUNCH THEREALNEWS")
 st.markdown("""
-    <a href="https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/" target="_blank">
-        <button class="pulse-button">Go to THEREALNEWS with Lawrence → Real Conservative Feed</button>
-    </a>
-    """, unsafe_allow_html=True)
+<p class="glow">
+<a href="https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/" target="_blank">
+>> ACCESS THEREALNEWS TERMINAL – WAR / POLITICS / ECONOMICS ANALYSIS
+</a> <span class="cursor"></span>
+</p>
+""", unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.subheader(">> CONTACT PROTOCOL")
+st.write("Transmit message via secure channel:")
+st.markdown(f'- PHONE: (253) XXX-XXXX')  # ← REAL NUMBER
+st.markdown(f'- EMAIL: lawrence@example.com')  # ← REAL EMAIL
+st.write("Acknowledge receipt within 0600 seconds. <span class="cursor"></span>", unsafe_allow_html=True)
 
-# ── Rest of your sections (fade-in for life) ──
-st.markdown('<div class="fade-in">', unsafe_allow_html=True)
-st.header("About Me")
-st.write("Federal Way resident, Python/Streamlit builder, focused on real news from trusted Republican sources. Check out my main project below.")
+st.markdown("---")
+st.caption("TERMINAL v1.0 – BUILT WITH PYTHON / STREAMLIT – CLASSIFIED 2026 – FOR LIBERTY")
 
-st.header("Featured Project")
-st.subheader("THEREALNEWS with Lawrence")
-st.write("Your go-to conservative news aggregator — switch between War, Politics, Economics. War mode includes next-event probabilities.")
-st.markdown("[Launch THEREALNEWS →](https://therealnews-8q9zgdyymx83erjszxjxgb.streamlit.app/)")
-
-# Add more sections as before: Skills, Contact, etc.
-st.markdown('</div>', unsafe_allow_html=True)
-
-st.caption("Built with Python + Streamlit • Always fighting for truth • 2026")
+st.markdown('</div>', unsafe_allow_html=True)  # end crt-flicker
