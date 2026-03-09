@@ -103,8 +103,8 @@ st.markdown("---")
 # ── Sidebar: Classified style ──
 with st.sidebar:
     st.markdown('<h2 class="glow">COMMAND MENU</h2>', unsafe_allow_html=True)
-    st.markdown('<p>📞 PHONE: (253) XXX-XXXX</p>')  # ← YOUR REAL NUMBER
-    st.markdown('<p>✉️ EMAIL: lawrence@example.com</p>')  # ← YOUR REAL EMAIL
+    st.markdown('<p>📞 PHONE: (253) XXX-XXXX</p>')           # ← CHANGE TO YOUR REAL PHONE NUMBER
+    st.markdown('<p>✉️ EMAIL: lawrence@example.com</p>')     # ← CHANGE TO YOUR REAL EMAIL
     st.markdown("---")
     st.markdown('<p class="glow">> STATUS: ONLINE | SEC LEVEL: PATRIOT</p>', unsafe_allow_html=True)
 
@@ -128,9 +128,9 @@ st.markdown("""
 
 st.subheader(">> CONTACT PROTOCOL")
 st.write("Transmit message via secure channel:")
-st.markdown(f'- PHONE: (253) XXX-XXXX')  # ← REAL NUMBER
-st.markdown(f'- EMAIL: lawrence@example.com')  # ← REAL EMAIL
-st.write("Acknowledge receipt within 0600 seconds. <span class="cursor"></span>", unsafe_allow_html=True)
+st.markdown('- PHONE: (253) XXX-XXXX')           # ← CHANGE TO YOUR REAL PHONE NUMBER
+st.markdown('- EMAIL: lawrence@example.com')     # ← CHANGE TO YOUR REAL EMAIL
+st.write('Acknowledge receipt within 0600 seconds. <span class="cursor"></span>', unsafe_allow_html=True)
 
 st.markdown("---")
 st.caption("TERMINAL v1.0 – BUILT WITH PYTHON / STREAMLIT – CLASSIFIED 2026 – FOR LIBERTY")
